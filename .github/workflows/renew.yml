@@ -1,0 +1,42 @@
+name: DigitalPlat Domain Renew
+
+on:
+  schedule:
+    # 每 3 天运行一次 (UTC时间 20:00，对应北京时间凌晨 4:00)
+    - cron: '0 20 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  renew:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        playwright install firefox
+
+    - name: Run renewal script
+      env:
+        DP_EMAIL: ${{ secrets.DP_EMAIL }}
+        DP_PASSWORD: ${{ secrets.DP_PASSWORD }}
+        BARK_KEY: ${{ secrets.BARK_KEY }}
+        BARK_SERVER: ${{ secrets.BARK_SERVER }}
+        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+      run: python renew.py
+      
+    - name: Upload screenshots on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: error-screenshots
+        path: "*.png"
