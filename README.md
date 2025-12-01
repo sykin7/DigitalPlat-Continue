@@ -1,4 +1,15 @@
+# DigitalPlat Domain Auto-Renew 自动续期脚本  
+**全自动帮你登录 DigitalPlat（DigitalPlat.org / dp.la）并续期域名，完全免费，每 3 天自动执行一次，支持 Telegram 消息推送**
 
+## 效果演示
+部署成功后，你会收到类似这样的 Telegram 消息：
+```
+✅ DigitalPlat 检查完毕！
+已成功续期 3 个域名：
+example.com 续期至 2026-12-31
+test.org 续期至 2026-12-31
+abc.net 续期至 2026-12-31
+```
 ## 一键部署（零基础也能 3 分钟搞定）
 
 ### 第一步：Fork 本仓库
