@@ -38,8 +38,21 @@ TIMEOUTS = {
 def validate_config():
     """检查必要的登录凭据"""
     if not DP_EMAIL or not DP_PASSWORD:
-        logger.error("配置错误: 缺少 DP_EMAIL 或 DP_PASSWORD。")
-        send_notification("DigitalPlat 配置错误", "缺少必要的登录环境变量，脚本停止运行。")
+        logger.error("配置错误: 缺少 DP_EMAIL 或 DP_PASSWORD 环境变量。")
+        logger.error("请设置以下环境变量:")
+        logger.error("  - DP_EMAIL: DigitalPlat 登录邮箱")
+        logger.error("  - DP_PASSWORD: DigitalPlat 登录密码")
+        logger.error("  - TG_BOT_TOKEN: Telegram Bot Token (可选)")
+        logger.error("  - TG_CHAT_ID: Telegram 聊天 ID (可选)")
+        logger.error("  - BARK_KEY: Bark 推送 Key (可选)")
+        logger.error("")
+        logger.error("本地运行示例:")
+        logger.error("  DP_EMAIL=your@email.com DP_PASSWORD=yourpassword python renew.py")
+        logger.error("")
+        logger.error("GitHub Actions 运行: 请在仓库 Settings -> Secrets and variables -> Actions 中添加对应 Secrets")
+        
+        # 不发送通知，因为缺少必要的通知配置
+        # send_notification("DigitalPlat 配置错误", "缺少必要的登录环境变量，脚本停止运行。")
         sys.exit(1)
 
 def send_notification(title, body, level="active"):
